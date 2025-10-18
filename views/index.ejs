@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>Elaina Chan</title>
+    <link rel="icon" href="https://nefyu.my.id/joqt.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="modal-overlay"></div>
+    <div id="custom-confirm" class="modal">
+        <p id="confirm-text">Kamu yakin mau menghapus percakapan ini?</p>
+        <div class="modal-buttons">
+            <button id="confirm-no" class="modal-button secondary">Batal</button>
+            <button id="confirm-yes" class="modal-button primary">Hapus</button>
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+    <nav id="sidebar-left">
+        <div class="sidebar-header">
+            <h3>History</h3>
+            <button id="close-sidebar-btn" class="icon-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <button id="new-chat-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>New Chat</span>
+            </button>
+            <div class="history-container">
+                <ul id="history-list"></ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav id="sidebar-right">
+        <div class="sidebar-header">
+            <h3>Pengaturan</h3>
+            <button id="close-settings-btn" class="icon-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <div class="settings-container">
+                <div class="setting-item toggle-item">
+                    <label for="dark-theme-toggle">Tema Gelap</label>
+                    <label class="switch">
+                        <input type="checkbox" id="dark-theme-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label for="model-select-display">Model AI</label>
+                    <div class="custom-select-wrapper">
+                         <select id="model-select" class="custom-select-native">
+                            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label for="system-instruction">System Instruction</label>
+                    <textarea id="system-instruction" rows="8" placeholder="Contoh: Kamu adalah Elaina Chan, AI yang ceria..."></textarea>
+                </div>
+                <div class="setting-item toggle-item">
+                    <label for="grounding-toggle">Grounding (Google Search)</label>
+                    <label class="switch">
+                        <input type="checkbox" id="grounding-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <header>
+            <button id="menu-btn" class="icon-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <h1>Elaina Chan</h1>
+            <button id="settings-btn" class="icon-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </header>
+
+        <main id="chat-container">
+            <div id="welcome-screen">
+                <img src="https://nefyu.my.id/joqt.jpg" alt="Elaina Chan Profile" class="profile-pic">
+                <h2>Haii! Aku Elaina Chan!</h2>
+                <p>Ada yang bisa Elaina bantu? Tanya apa aja boleh kok, atau pilih saran di bawah ini~</p>
+                <div class="suggestion-chips">
+                    <button class="chip">Elaina, ceritain dong petualanganmu!</button>
+                    <button class="chip">Bikinin aku resep kue yang paling enak dong~</button>
+                    <button class="chip">Rekomendasiin anime yang bagus buat weekend ini?</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div id="file-preview-container"></div>
+            <form id="chat-form">
+                <div class="input-wrapper">
+                    <button type="button" class="input-icon-btn" id="upload-file-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                    </button>
+                    <textarea id="message-input" placeholder="Tanya Elaina apa saja..." rows="1"></textarea>
+                    <button type="submit" id="send-button" class="input-icon-btn">
+                        <div class="loader"></div>
+                        <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
+                        <svg class="stop-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="6" y="6" width="12" height="12" rx="1"></rect></svg>
+                    </button>
+                </div>
+                <input type="file" id="file-input" multiple hidden>
+            </form>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>
