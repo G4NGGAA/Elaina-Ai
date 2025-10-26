@@ -42,7 +42,6 @@ body.dark-theme {
 
 html,
 body {
-    /* Menggunakan 100dvh untuk kompatibilitas mobile penuh */
     height: 100dvh;
     font-family: var(--font-sans);
     background-color: var(--c-bg);
@@ -66,7 +65,6 @@ a:hover { text-decoration: underline; }
     display: grid;
     grid-template-rows: var(--header-height) 1fr auto;
     height: 100%;
-    /* Batasan lebar utama untuk desktop/tablet */
     max-width: 800px;
     margin: 0 auto;
     background-color: var(--c-chat-bg);
@@ -102,7 +100,6 @@ footer {
     flex-direction: column;
     gap: 10px;
     padding: var(--footer-padding) 15px;
-    /* Penanganan keyboard mobile */
     padding-bottom: calc(var(--footer-padding) + env(keyboard-inset-height, 0px));
     background-color: var(--c-chat-bg);
     z-index: 10;
@@ -112,8 +109,7 @@ footer {
 nav {
     position: fixed;
     top: 0;
-    /* Menggunakan min() untuk memastikan lebar sidebar responsif dan tidak terlalu lebar pada layar kecil */
-    width: min(85vw, 280px);
+    width: min(85vw, 280px); /* Responsive width */
     height: 100%;
     background-color: var(--c-sidebar-bg);
     z-index: 200;
@@ -125,12 +121,7 @@ nav {
 
 #sidebar-left { left: 0; transform: translateX(-100%); }
 #sidebar-left.open { transform: translateX(0); }
-#sidebar-right { 
-    right: 0; 
-    /* Menggunakan min() untuk memastikan lebar sidebar responsif */
-    width: min(90vw, 320px); 
-    transform: translateX(100%); 
-}
+#sidebar-right { right: 0; width: min(90vw, 320px); transform: translateX(100%); } /* Responsive width */
 #sidebar-right.open { transform: translateX(0); }
 
 .sidebar-header {
@@ -172,6 +163,90 @@ input:checked+.slider { background-color: var(--c-accent); }
 input:checked+.slider:before { transform: translateX(20px); }
 .slider.round { border-radius: 34px; }
 .slider.round:before { border-radius: 50%; }
+
+/* --- MODAL STYLING FIX --- */
+
+#modal-overlay { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.4); /* Darker overlay for modal */
+    z-index: 300; 
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.3s ease-in-out; 
+}
+#modal-overlay.active { 
+    opacity: 1; 
+    pointer-events: auto; 
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90vw, 350px); /* Responsive width, max 350px */
+    background-color: var(--c-chat-bg);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 400;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#confirm-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--c-text);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.modal-button.primary {
+    background-color: var(--c-danger);
+    color: white;
+}
+.modal-button.primary:hover {
+    opacity: 0.9;
+}
+
+.modal-button.secondary {
+    background-color: var(--c-ai-bubble-bg);
+    color: var(--c-text-light);
+    border: 1px solid var(--c-border);
+}
+.modal-button.secondary:hover {
+    background-color: var(--c-border);
+}
+
+/* --- END MODAL STYLING FIX --- */
 
 #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.1); backdrop-filter: blur(4px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
 #overlay.active { opacity: 1; pointer-events: auto; }
@@ -266,44 +341,30 @@ pre { margin: 0; padding: 12px; overflow-x: auto; }
 code { font-family: var(--font-mono); }
 
 /* --- RESPONSIVE MOBILE OVERRIDES --- */
-/* Terapkan penyesuaian untuk perangkat dengan lebar maksimum 768px (ponsel dan tablet kecil) */
 @media (max-width: 768px) {
     .app-container {
-        /* Memastikan container mengambil lebar penuh di perangkat seluler */
         max-width: 100%;
         width: 100%;
     }
 
-    /* Penyesuaian padding header dan footer untuk perangkat seluler */
-    header {
-        padding: 0 10px;
-    }
-    
-    header h1 {
-        font-size: 1.2rem;
-    }
+    header { padding: 0 10px; }
+    header h1 { font-size: 1.2rem; }
 
     footer {
-        /* Padding horizontal yang sedikit dikurangi */
         padding-left: 10px;
         padding-right: 10px;
         padding-top: 8px;
         padding-bottom: calc(8px + env(keyboard-inset-height, 0px));
     }
 
-    /* Penyesuaian padding konten utama */
     main {
         padding: 1rem 10px;
         gap: 1rem;
     }
     
     .message-wrapper.ai { padding-top: 1rem; }
+    .message-wrapper .content { font-size: 0.95rem; }
     
-    .message-wrapper .content {
-        font-size: 0.95rem;
-    }
-    
-    /* Penyesuaian input wrapper */
     .input-wrapper {
         border-radius: 14px;
         padding: 3px;
@@ -314,7 +375,6 @@ code { font-family: var(--font-mono); }
         padding: 8px 6px;
     }
     
-    /* Penyesuaian chip saran di welcome screen */
     .chip {
         padding: 6px 12px;
         font-size: 0.8rem;
@@ -324,28 +384,10 @@ code { font-family: var(--font-mono); }
     }
 }
 
-/* Penyesuaian untuk perangkat yang sangat kecil (lebar < 480px) */
 @media (max-width: 480px) {
-    /* Penyesuaian lebih lanjut untuk sidebar agar tidak terlalu kecil */
-    nav {
-        width: min(90vw, 280px); 
-    }
-    
-    #sidebar-right {
-        width: min(95vw, 320px);
-    }
-    
-    .sidebar-content {
-        padding: 10px;
-    }
-    
-    /* Ukuran tombol ikon lebih kecil */
-    .input-icon-btn {
-        padding: 6px;
-    }
-    
-    #send-button {
-        width: 32px;
-        height: 32px;
-    }
+    nav { width: min(90vw, 280px); }
+    #sidebar-right { width: min(95vw, 320px); }
+    .sidebar-content { padding: 10px; }
+    .input-icon-btn { padding: 6px; }
+    #send-button { width: 32px; height: 32px; }
 }
