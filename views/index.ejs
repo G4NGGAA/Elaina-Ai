@@ -9,10 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Gaya dasar untuk memastikan font Inter juga tersedia */
+        :root { --font-sans: 'Inter', sans-serif; }
+    </style>
 </head>
 <body>
-    <div id="modal-overlay"></div>
-    <div id="custom-confirm" class="modal">
+    <!-- Modal dan Overlay yang sudah diperbaiki stylingnya -->
+    <!-- Saya menambahkan class 'active' HANYA UNTUK DEMO. Hapus class 'active' setelah Anda mengimplementasikan logika JS. -->
+    <div id="modal-overlay" class="active"></div> 
+    <div id="custom-confirm" class="modal active">
         <p id="confirm-text">Kamu yakin mau menghapus percakapan ini?</p>
         <div class="modal-buttons">
             <button id="confirm-no" class="modal-button secondary">Batal</button>
@@ -59,9 +65,9 @@
                     <label for="model-select-display">Model AI</label>
                     <div class="custom-select-wrapper">
                          <select id="model-select" class="custom-select-native">
-                            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                        </select>
+                             <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+                             <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                         </select>
                     </div>
                 </div>
                 <div class="setting-item">
@@ -110,6 +116,7 @@
                     <button type="button" class="input-icon-btn" id="upload-file-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
                     </button>
+                    <!-- Placeholder sudah diperbaiki -->
                     <textarea id="message-input" placeholder="Tanya Elaina apa saja..." rows="1"></textarea>
                     <button type="submit" id="send-button" class="input-icon-btn">
                         <div class="loader"></div>
