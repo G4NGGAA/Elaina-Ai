@@ -42,6 +42,7 @@ body.dark-theme {
 
 html,
 body {
+    /* Menggunakan 100dvh untuk kompatibilitas mobile penuh */
     height: 100dvh;
     font-family: var(--font-sans);
     background-color: var(--c-bg);
@@ -65,6 +66,7 @@ a:hover { text-decoration: underline; }
     display: grid;
     grid-template-rows: var(--header-height) 1fr auto;
     height: 100%;
+    /* Batasan lebar utama untuk desktop/tablet */
     max-width: 800px;
     margin: 0 auto;
     background-color: var(--c-chat-bg);
@@ -100,6 +102,7 @@ footer {
     flex-direction: column;
     gap: 10px;
     padding: var(--footer-padding) 15px;
+    /* Penanganan keyboard mobile */
     padding-bottom: calc(var(--footer-padding) + env(keyboard-inset-height, 0px));
     background-color: var(--c-chat-bg);
     z-index: 10;
@@ -109,7 +112,8 @@ footer {
 nav {
     position: fixed;
     top: 0;
-    width: 280px;
+    /* Menggunakan min() untuk memastikan lebar sidebar responsif dan tidak terlalu lebar pada layar kecil */
+    width: min(85vw, 280px);
     height: 100%;
     background-color: var(--c-sidebar-bg);
     z-index: 200;
@@ -121,7 +125,12 @@ nav {
 
 #sidebar-left { left: 0; transform: translateX(-100%); }
 #sidebar-left.open { transform: translateX(0); }
-#sidebar-right { right: 0; width: 320px; transform: translateX(100%); }
+#sidebar-right { 
+    right: 0; 
+    /* Menggunakan min() untuk memastikan lebar sidebar responsif */
+    width: min(90vw, 320px); 
+    transform: translateX(100%); 
+}
 #sidebar-right.open { transform: translateX(0); }
 
 .sidebar-header {
@@ -255,3 +264,88 @@ textarea#message-input {
 .code-block-actions button svg { width: 16px; height: 16px; }
 pre { margin: 0; padding: 12px; overflow-x: auto; }
 code { font-family: var(--font-mono); }
+
+/* --- RESPONSIVE MOBILE OVERRIDES --- */
+/* Terapkan penyesuaian untuk perangkat dengan lebar maksimum 768px (ponsel dan tablet kecil) */
+@media (max-width: 768px) {
+    .app-container {
+        /* Memastikan container mengambil lebar penuh di perangkat seluler */
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Penyesuaian padding header dan footer untuk perangkat seluler */
+    header {
+        padding: 0 10px;
+    }
+    
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    footer {
+        /* Padding horizontal yang sedikit dikurangi */
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 8px;
+        padding-bottom: calc(8px + env(keyboard-inset-height, 0px));
+    }
+
+    /* Penyesuaian padding konten utama */
+    main {
+        padding: 1rem 10px;
+        gap: 1rem;
+    }
+    
+    .message-wrapper.ai { padding-top: 1rem; }
+    
+    .message-wrapper .content {
+        font-size: 0.95rem;
+    }
+    
+    /* Penyesuaian input wrapper */
+    .input-wrapper {
+        border-radius: 14px;
+        padding: 3px;
+    }
+    
+    textarea#message-input {
+        font-size: 0.95rem;
+        padding: 8px 6px;
+    }
+    
+    /* Penyesuaian chip saran di welcome screen */
+    .chip {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    .suggestion-chips {
+        gap: 8px;
+    }
+}
+
+/* Penyesuaian untuk perangkat yang sangat kecil (lebar < 480px) */
+@media (max-width: 480px) {
+    /* Penyesuaian lebih lanjut untuk sidebar agar tidak terlalu kecil */
+    nav {
+        width: min(90vw, 280px); 
+    }
+    
+    #sidebar-right {
+        width: min(95vw, 320px);
+    }
+    
+    .sidebar-content {
+        padding: 10px;
+    }
+    
+    /* Ukuran tombol ikon lebih kecil */
+    .input-icon-btn {
+        padding: 6px;
+    }
+    
+    #send-button {
+        width: 32px;
+        height: 32px;
+    }
+}
